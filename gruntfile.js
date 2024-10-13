@@ -1,3 +1,5 @@
+const { options } = require("less");
+
 module.exports = function(grunt){
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),//configuração inicial do grunt
@@ -35,8 +37,63 @@ module.exports = function(grunt){
             less:{
                 files:['./src/styles/**/*.less'],
                 tasks: ['less:development']//executa a tarefa apos alterações.
+            },
+            html:{
+                files:['./src/index.html'],
+                tasks:['replace:dev']
             }
-        }
+        },
+        replace:{ //usado para substituir palavras
+            dev:{
+                options: {
+                    patterns:[
+                        {
+                            match: 'ENDEREÇO_DO_CSS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
+                            replacement: './styles/main.css'//o que ira substituir
+                        }
+                    ]
+                },
+                files:[
+                    {
+                        expand: true,
+                        flatten: true,
+                        src:['src/index.html'],
+                        dest: 'dev/'
+                    }
+                ]
+            },
+            dist:{
+                options: {
+                    patterns:[
+                        {
+                            match: 'ENDEREÇO_DO_CSS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
+                            replacement: './styles/main.min.css'//o que ira substituir
+                        }
+                    ]
+                },
+                files:[
+                    {
+                        expand: true,
+                        flatten: true,
+                        src:['prebuild/index.html'],
+                        dest: 'dist/'
+                    }
+                ]
+            }
+            
+        },
+        htmlmin:{
+            dist:{//minifica o html
+                options:{
+                    removeComments: true,//remove os comentarios
+                    collapseWhitespace: true//remove os espaços vazios
+                },
+                files: {//foi criada uma pasta temporaria para depois mudar o endereço do css, primeiro o destino e segigundo a fonte
+                    'prebuild/index.html':'src/index.html'
+                }
+            }
+        },
+        clean:['prebuild']//limpa a pasta temporaria
     })
 
     //criação de tarefas com grunt
@@ -56,8 +113,11 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('default', ['watch']); // tarefa default
     //pode se passar varias tarefas a serem executadas dentro do array.
-    grunt.registerTask('build', 'less:production')
+    grunt.registerTask('build', ['less:production', 'htmlmin:dist', 'replace:dist', 'clean'])
 }
