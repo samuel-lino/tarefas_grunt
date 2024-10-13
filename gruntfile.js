@@ -50,6 +50,10 @@ module.exports = function(grunt){
                         {
                             match: 'ENDEREÇO_DO_CSS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
                             replacement: './styles/main.css'//o que ira substituir
+                        },
+                        {
+                            match: 'ENDEREÇO_DO_JS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
+                            replacement: '../src/scripts/main.js'//o que ira substituir
                         }
                     ]
                 },
