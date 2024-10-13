@@ -1,4 +1,3 @@
-const { options } = require("less");
 
 module.exports = function(grunt){
     grunt.initConfig({
