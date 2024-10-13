@@ -72,6 +72,10 @@ module.exports = function(grunt){
                         {
                             match: 'ENDEREÇO_DO_CSS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
                             replacement: './styles/main.min.css'//o que ira substituir
+                        },
+                        {
+                            match: 'ENDEREÇO_DO_JS',//palavras que ele ira procurar, no html tem que colocar @@ antes destas palavras.
+                            replacement: './scripts/main.min.js'//o que ira substituir
                         }
                     ]
                 },
@@ -97,7 +101,14 @@ module.exports = function(grunt){
                 }
             }
         },
-        clean:['prebuild']//limpa a pasta temporaria
+        clean:['prebuild'],//limpa a pasta temporaria
+        uglify:{
+            target:{
+                files: {
+                    'dist/scripts/main.min.js': 'src/scripts/main.js'
+                }
+            }
+        }
     })
 
     //criação de tarefas com grunt
@@ -120,8 +131,9 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.registerTask('default', ['watch']); // tarefa default
     //pode se passar varias tarefas a serem executadas dentro do array.
-    grunt.registerTask('build', ['less:production', 'htmlmin:dist', 'replace:dist', 'clean'])
+    grunt.registerTask('build', ['less:production', 'htmlmin:dist', 'replace:dist', 'clean', 'uglify'])
 }
