@@ -1,109 +1,22 @@
-@import "variaveis.less";
-@import "config.less";
-@breakpointMobile: ~"(max-width: 767px)";
-@breakpointTablet: ~"(max-width: 1023px)";
+@fontPrincipal: Roboto, sans-serif;
+@fontSecundaria: Lobster, cursive;
+@cordoTexto: #fff;
+@cordeFundo: #eb345a;
 
-.fontSize{
-    font-size: 10px;
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: @fontPrincipal;
 }
 
 body{
-    background-color: @corDeFundo;
-    color: @corDoTexto;
-    text-align: center;
-
-    .profile-avatar{
-        margin-top: 12px;
-        border-radius: 50%;
-        height: 100px;
-        width: 100px;
-    }
-
-    .profile-bios{
-        &-name{
-            font-size: 16px;
-        }
-
-        &-subtitle{
-            .fontSize();
-            margin-bottom: 16px;
-        }
-
-        &-description{
-            .fontSize();
-            opacity: 0.6;
-        }
-    }
-
+    background-color: @cordeFundo;
+    color: @cordoTexto;
 }
 
-li{
-    list-style: none;
+h1{
+    font-family: @fontSecundaria;
+    font-size: 3rem;
 }
-
-a{
-    text-decoration: none;
-}
-
-.container{
-    max-width: 760px;
-    width: 100%;
-    margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    
-    @media @breakpointTablet{
-        width: 90%;
-    }
-
-    @media @breakpointMobile{
-        width: 70%;
-    }
-}
-
-.social-media{
-    ul{
-        display: flex;
-        justify-content: space-between;
-        margin: 0 auto;
-        max-width: 240px;
-        li{
-            margin: 12px 0;
-            div{
-                a{
-                    img{
-                        transition: all ease .4s;
-                        &:hover{
-                            transform: scale(1.5);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-.project-list{
-        li{
-            margin: 12px 0;
-
-            a{
-                color: @corDoTexto;
-                display: block;
-                background-color: @corDeBotoes;
-                border: 3px solid @corDeBotoes;
-                border-radius: 30px;
-                padding: 12px;
-                font-weight: bold;
-                transition: all ease .7s;
-                &:hover{
-                    background-color: @corDeFundo;
-                    color: @corDeBotoes;
-                }
-            }
-        }
-}
-

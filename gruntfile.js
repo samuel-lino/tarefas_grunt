@@ -4,7 +4,7 @@ module.exports = function(grunt){
         less: {
             development: {//versão de desenvolvimento
                 files: {
-                    './build/styles/main.css': './src/styles/main.less'
+                    './dev/styles/main.css': './src/styles/main.less'
                 }
             },
 
@@ -13,7 +13,7 @@ module.exports = function(grunt){
                     compress: true,//comprimi o arquivo
                 },
                 files:{
-                    './build/styles/main.min.css': './src/styles/main.less'
+                    './dist/styles/main.min.css': './src/styles/main.less'
                 }
             }
         },
@@ -26,6 +26,15 @@ module.exports = function(grunt){
                 files:{
                     'main2.css': 'main.scss'
                 }
+            }
+        },
+        concurrent:{//executa as tarefas de forma paralela.
+            target: ['less']
+        },
+        watch:{//observa alteraçoes.
+            less:{
+                files:['./src/styles/**/*.less'],
+                tasks: ['less:development']//executa a tarefa apos alterações.
             }
         }
     })
@@ -45,7 +54,10 @@ module.exports = function(grunt){
     //nescessario para ler o plugin
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['less', 'sass']); // tarefa default
+    grunt.registerTask('default', ['watch']); // tarefa default
     //pode se passar varias tarefas a serem executadas dentro do array.
+    grunt.registerTask('build', 'less:production')
 }
